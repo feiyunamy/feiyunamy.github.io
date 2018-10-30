@@ -1,6 +1,6 @@
 # Site Info
-title:              "飞云的博客"
-description:        "认真做事 认真生活"
+title:              "feiyun's blog"
+description:        "feiyun's Deep Learning Adventures"
 author_name:        "feiyun" # change this to your name
 logo_url:           https://avatars3.githubusercontent.com/u/20557563?v=4 # Get it from GitHub API: https://api.github.com/users/<username>
 
