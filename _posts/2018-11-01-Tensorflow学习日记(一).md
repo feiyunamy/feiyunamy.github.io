@@ -1,5 +1,5 @@
 ---
-title:Tensorflow学习日记（一）
+title:Tensorflow学习日记(一)
 updated:2018-11-01 14:10
 ---
 
