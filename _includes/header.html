@@ -7,13 +7,18 @@
 		{% assign link = '/' %}
 		{% assign prompt = 'Back to Index' %}
 	{% endif %}
-
+	<style>
+		img{
+			width: 500px;
+			height: 100px;	
+		}
+	</style>
 	<a href="{{ link | prepend: site.baseurl | prepend: site.url }}">
 		<img src="{{ site.logo_url }}" class="logo-avatar">
 	</a>
 	<span class="logo-prompt code">{{ prompt }}</span>
 	<div>
-		<img src="https://i.loli.net/2018/11/03/5bdd5671974e3.png" alt="未标题-1@1x.png" title="未标题-1@1x.png" />
+		<img src="https://i.loli.net/2018/11/03/5bdd5671974e3.png" alt="feiyun's Deep Learning Adventures" title="feiyun's Deep Learning Adventures" />
 	</div>
 	<script>
 		var _hmt = _hmt || [];
