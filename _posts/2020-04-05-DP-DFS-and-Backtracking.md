@@ -17,6 +17,8 @@ updated: 2020-04-05 12:10
     - 解决一个复杂问题时，着眼于他的子问题，通过DFS求解，但是需要保证得到子问题的解以后，复杂问题的参数可以恢复，此时，父问题便可以直接求解。
     - 恢复父问题参数的过程即称为回溯，通过求解子问题时压栈，子问题解决后弹栈的方式来实现参数的恢复。
     - 注意，恢复参数需要保证每次传递参数时，函数的变量不能被硬性改变。比如，可以是：
+	
+	
 ```python
 def f(param):
     ...
@@ -25,6 +27,8 @@ def f(param):
     new_param = param + bias
     f(new_param)
 ```
+
+
 但是不能这样调用，导致无法回溯参数：
 ```python
 def f(param):
@@ -32,16 +36,16 @@ def f(param):
    param = param + bias
     f(param)
 ```
+
+
 4. 一个经验是，如果初始值很容易得到，则直接使用标准 DOWN-TOP DP就可以解决，但是如果需要用到DFS+Backtracking， 则TOP-DOWN DP中的打表记录法可能会产生一定的优化效果。
     - 因为如果不打表，则需要一直DFS到能够肉眼得到结果的时候再慢慢返回，重复计算，效率过低。
+
 ### 一个例子
 - 题目：[Leetcode-464 我能赢吗？](https://leetcode-cn.com/problems/can-i-win/)
 
-  
-
 - 代码：
   DFS + Backtracking + DP优化
-
   
 ```python
 # @lc code=start
