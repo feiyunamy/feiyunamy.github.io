@@ -36,10 +36,14 @@ def f(param):
     - 因为如果不打表，则需要一直DFS到能够肉眼得到结果的时候再慢慢返回，重复计算，效率过低。
 ### 一个例子
 - 题目：[Leetcode-464 我能赢吗？](https://leetcode-cn.com/problems/can-i-win/)
-- 代码：
-DFS + Backtracking + DP优化
-```python
 
+  
+
+- 代码：
+  DFS + Backtracking + DP优化
+
+  
+```python
 # @lc code=start
 class Solution:
     def canIWin(self, maxChoosableInteger: int, desiredTotal: int) -> bool:
