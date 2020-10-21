@@ -1,0 +1,177 @@
+# 2019-03-10 18:17:37
+#---------------------------------------------------#
+## 配置文件需要放置在 $HOME/.config/clash/config.yml
+## 
+## 如果您不知道如何操作，请参阅 SS-Rule-Snippet 的 Wiki： https://github.com/Hackl0us/SS-Rule-Snippet/wiki/clash(X)
+#---------------------------------------------------#
+
+# HTTP 代理端口
+port: 7890
+
+# SOCKS5 代理端口
+socks-port: 7891
+
+# Linux 和 macOS 的 redir 代理端口 (如需使用此功能，请取消注释)
+# redir-port: 7892
+
+# 允许局域网的连接（可用来共享代理）
+allow-lan: false
+
+# 规则模式：Rule（规则） / Global（全局代理）/ Direct（全局直连）
+mode: Rule
+
+# 设置日志输出级别 (默认级别：silent，即不输出任何内容，以避免因日志内容过大而导致程序内存溢出）。
+# 5 个级别：silent / info / warning / error / debug。级别越高日志输出量越大，越倾向于调试，若需要请自行开启。
+log-level: silent
+
+# clash 的 RESTful API
+external-controller: 127.0.0.1:9090
+
+# 您可以将静态网页资源（如 clash-dashboard）放置在一个目录中，clash 将会服务于 `${API}/ui`
+# 参数应填写配置目录的相对路径或绝对路径。
+# external-ui: folder
+
+# RESTful API 的口令 (可选)
+secret: ""
+
+dns:
+  enable: true
+  ipv6: false
+  # listen: 0.0.0.0:53
+  # enhanced-mode: redir-host
+  nameserver:
+     - 1.2.4.8
+     - 114.114.114.114
+     - 223.5.5.5
+     - tls://dns.rubyfish.cn:853
+     
+  fallback: # 与 nameserver 内的服务器列表同时发起请求，当规则符合 GEOIP 在 CN 以外时，fallback 列表内的域名服务器生效。
+     - tls://dns.rubyfish.cn:853
+     - tls://dns.google
+
+# clash DNS 请求逻辑：
+# (1) 当访问一个域名时， nameserver 与 fallback 列表内的所有服务器并发请求，得到域名对应的 IP 地址。
+# (2) clash 将选取 nameserver 列表内，解析最快的结果。
+# (3) 若解析结果中，IP 地址属于 国外，那么 clash 将选择 fallback 列表内，解析最快的结果。
+#
+# 因此，我在 nameserver 和 fallback 内都放置了无污染、解析速度较快的国内 DNS 服务器，以达到最快的解析速度。
+# 但是 fallback 列表内服务器会用在解析境外网站，为了结果绝对无污染，我仅保留了支持 DoT/DoH 的两个服务器。
+# 
+# 注意：
+# (1) 如果您为了确保 DNS 解析结果无污染，请仅保留列表内以 tls:// 开头的 DNS 服务器，但是通常对于国内没有太大必要。
+# (2) 如果您不在乎可能解析到污染的结果，更加追求速度。请将 nameserver 列表的服务器插入至 fallback 列表内，并移除重复项。
+
+Proxy:
+
+# shadowsocks
+# 所支持的加密方式与 go-shadowsocks2 保持一致
+# 支持加密方式： AEAD_AES_128_GCM AEAD_AES_192_GCM AEAD_AES_256_GCM AEAD_CHACHA20_POLY1305 AES-128-CTR AES-192-CTR AES-256-CTR AES-128-CFB AES-192-CFB AES-256-CFB CHACHA20-IETF XCHACHA20 
+# clash 额外支持 chacha20 rc4-md5 xchacha20-ietf-poly1305 加密方式
+
+#  http
+#- { name: "UnblockNeteaseMusic_Local", type: http, server: 192.168.1.28, port: 8080 }
+
+- { name: "UnblockNeteaseMusic_Network", type: http, server: 39.108.63.39, port: 90 }
+
+Proxy Group:
+# url-test 网易云音乐
+- { name: "UnblockNeteaseMusic", type: url-test, proxies: ["UnblockNeteaseMusic_Local", "UnblockNeteaseMusic_Network"], url: "http://www.gstatic.com/generate_204", interval: 60 }
+
+Rule:
+# 自定义规则
+# 添加规则
+- DOMAIN-SUFFIX,music.163.com,UnblockNeteaseMusic
+- DOMAIN-SUFFIX,interface.music.163.com,UnblockNeteaseMusic
+- DOMAIN-SUFFIX,interface3.music.163.com,UnblockNeteaseMusic
+- DOMAIN-SUFFIX,apm.music.163.com,UnblockNeteaseMusic
+- DOMAIN-SUFFIX,apm3.music.163.com,UnblockNeteaseMusic
+- DOMAIN-SUFFIX,man.netease.com,UnblockNeteaseMusic
+- DOMAIN-SUFFIX,api.iplay.163.com,UnblockNeteaseMusic
+- IP-CIDR,39.105.63.80/32,UnblockNeteaseMusic
+- IP-CIDR,45.254.48.1/32,UnblockNeteaseMusic
+- IP-CIDR,47.100.127.239/32,UnblockNeteaseMusic
+- IP-CIDR,59.111.160.195/32,UnblockNeteaseMusic
+- IP-CIDR,59.111.160.197/32,UnblockNeteaseMusic
+- IP-CIDR,59.111.181.35/32,UnblockNeteaseMusic
+- IP-CIDR,59.111.181.38/32,UnblockNeteaseMusic
+- IP-CIDR,59.111.181.60/32,UnblockNeteaseMusic
+- IP-CIDR,101.71.154.241/32,UnblockNeteaseMusic
+- IP-CIDR,103.126.92.132/32,UnblockNeteaseMusic
+- IP-CIDR,103.126.92.133/32,UnblockNeteaseMusic
+- IP-CIDR,112.13.119.17/32,UnblockNeteaseMusic
+- IP-CIDR,112.13.122.1/32,UnblockNeteaseMusic
+- IP-CIDR,115.236.118.33/32,UnblockNeteaseMusic
+- IP-CIDR,115.236.121.1/32,UnblockNeteaseMusic
+- IP-CIDR,118.24.63.156/32,UnblockNeteaseMusic
+- IP-CIDR,193.112.159.225/32,UnblockNeteaseMusic
+- IP-CIDR,223.252.199.66/32,UnblockNeteaseMusic
+- IP-CIDR,223.252.199.67/32,UnblockNeteaseMusic
+## 您可以在此处插入您补充的自定义规则
+- DOMAIN-SUFFIX,music.163.com,UnblockNeteaseMusic
+- DOMAIN-SUFFIX,interface.music.163.com,UnblockNeteaseMusic
+- DOMAIN-SUFFIX,interface3.music.163.com,UnblockNeteaseMusic
+- DOMAIN-SUFFIX,apm.music.163.com,UnblockNeteaseMusic
+- DOMAIN-SUFFIX,apm3.music.163.com,UnblockNeteaseMusic
+- DOMAIN-SUFFIX,man.netease.com,UnblockNeteaseMusic
+- DOMAIN-SUFFIX,api.iplay.163.com,UnblockNeteaseMusic
+- IP-CIDR,39.105.63.80/32,UnblockNeteaseMusic
+- IP-CIDR,45.254.48.1/32,UnblockNeteaseMusic
+- IP-CIDR,47.100.127.239/32,UnblockNeteaseMusic
+- IP-CIDR,59.111.160.195/32,UnblockNeteaseMusic
+- IP-CIDR,59.111.160.197/32,UnblockNeteaseMusic
+- IP-CIDR,59.111.181.35/32,UnblockNeteaseMusic
+- IP-CIDR,59.111.181.38/32,UnblockNeteaseMusic
+- IP-CIDR,59.111.181.60/32,UnblockNeteaseMusic
+- IP-CIDR,101.71.154.241/32,UnblockNeteaseMusic
+- IP-CIDR,103.126.92.132/32,UnblockNeteaseMusic
+- IP-CIDR,103.126.92.133/32,UnblockNeteaseMusic
+- IP-CIDR,112.13.119.17/32,UnblockNeteaseMusic
+- IP-CIDR,112.13.122.1/32,UnblockNeteaseMusic
+- IP-CIDR,115.236.118.33/32,UnblockNeteaseMusic
+- IP-CIDR,115.236.121.1/32,UnblockNeteaseMusic
+- IP-CIDR,118.24.63.156/32,UnblockNeteaseMusic
+- IP-CIDR,193.112.159.225/32,UnblockNeteaseMusic
+- IP-CIDR,223.252.199.66/32,UnblockNeteaseMusic
+- IP-CIDR,223.252.199.67/32,UnblockNeteaseMusic
+- DOMAIN-SUFFIX,music.163.com,UnblockNeteaseMusic
+- DOMAIN-SUFFIX,interface.music.163.com,UnblockNeteaseMusic
+- DOMAIN-SUFFIX,interface3.music.163.com,UnblockNeteaseMusic
+- DOMAIN-SUFFIX,apm.music.163.com,UnblockNeteaseMusic
+- DOMAIN-SUFFIX,apm3.music.163.com,UnblockNeteaseMusic
+- DOMAIN-SUFFIX,man.netease.com,UnblockNeteaseMusic
+- DOMAIN-SUFFIX,api.iplay.163.com,UnblockNeteaseMusic
+- IP-CIDR,59.111.181.60/32,UnblockNeteaseMusic
+- IP-CIDR,223.252.199.66/32,UnblockNeteaseMusic
+- IP-CIDR,223.252.199.67/32,UnblockNeteaseMusic
+- IP-CIDR,59.111.160.195/32,UnblockNeteaseMusic
+- IP-CIDR,59.111.160.197/32,UnblockNeteaseMusic
+- IP-CIDR,59.111.181.35/32,UnblockNeteaseMusic
+- IP-CIDR,59.111.181.38/32,UnblockNeteaseMusic
+- IP-CIDR,39.105.63.80/32,UnblockNeteaseMusic
+- IP-CIDR,47.100.127.239/32,UnblockNeteaseMusic
+- IP-CIDR,118.24.63.156/32,UnblockNeteaseMusic
+- IP-CIDR,193.112.159.225/32,UnblockNeteaseMusic
+- IP-CIDR,59.111.181.155/32,UnblockNeteaseMusic
+
+- DOMAIN-SUFFIX,ac.dun.163yun.com,UnblockNeteaseMusic
+- DOMAIN-SUFFIX,mr.da.netease.com,UnblockNeteaseMusic
+- DOMAIN-SUFFIX,crash.163.com,UnblockNeteaseMusic
+- IP-CIDR,101.71.154.241/32,UnblockNeteaseMusic
+
+- DOMAIN-SUFFIX,music.126.net,UnblockNeteaseMusic
+#- IP-CIDR,59.111.21.13/32,UnblockNeteaseMusic
+#- IP-CIDR,59.111.21.14/32,UnblockNeteaseMusic
+#- IP-CIDR,59.111.179.213/32,UnblockNeteaseMusic
+
+# LAN
+- DOMAIN-SUFFIX,local,DIRECT
+- IP-CIDR,127.0.0.0/8,DIRECT
+- IP-CIDR,172.16.0.0/12,DIRECT
+- IP-CIDR,192.168.0.0/16,DIRECT
+- IP-CIDR,10.0.0.0/8,DIRECT
+- IP-CIDR,17.0.0.0/8,DIRECT
+- IP-CIDR,100.64.0.0/10,DIRECT
+
+# 最终规则
+- GEOIP,CN,DIRECT
+- MATCH,DIRECT
